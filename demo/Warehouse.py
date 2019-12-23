@@ -14,7 +14,7 @@ class Warehouse(object):
         self.__act = len(self.__cars)    # 仓库活跃度，也就是正在工作车辆数
         self.__rea = int(self.__limit * flag2)  # 仓库合理工作强度
         self.__rest = 0       # 仓库需求剩余未完成量
-        self.__last_time = 0 # 上一次plan_day修改时间，秒
+        self.__last_time = 0 # 上一次plan_day修改时间
         self.__priority = None  # 优先级
 
     def get_warehouse_code(self):
@@ -46,4 +46,7 @@ class Warehouse(object):
 
     def set_priority(self, priority):
         self.__priority = priority
+
+    def get_priority(self):
+        return self.__priority
 

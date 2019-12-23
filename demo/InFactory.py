@@ -33,20 +33,20 @@ class InFactory(object):
             warehouse_list.append(Warehouse(warehouse_code, Tool.warehouse_mat[warehouse_code], cars_list, flag1, flag2))
         return warehouse_list
 
-    def cal_warehouse_priority(self):
-        # 计算 rest剩余未完成量、last_time距离上次plan_day修改时间、（仓库合理工作强度-当前车辆工作数）的softmax函数
+    def cal_warehouse_priority(self, now_time):
+        # 计算 rest剩余未完成量、(now_time-last_time)距离上次plan_day修改时间、（仓库合理工作强度-当前车辆工作数）的softmax函数
         rest_list = list()
-        last_time_list = list()
+        time_list = list()
         cars_num_list = list()
         for warehouse in self.__warehouse_list:
             rest_list.append(warehouse.get_rest())
-            last_time_list.append(warehouse.get_last_time())
+            time_list.append((Tool.string_to_datetime(now_time) - Tool.string_to_datetime(warehouse.get_last_time())).total_seconds())
             cars_num_list.append(warehouse.get_rea() - len(warehouse.get_cars()))
         rest = np.array(rest_list)
-        last_time = np.array(last_time_list)
+        time = np.array(time_list)
         cars_num = np.array(cars_num_list)
         rest = np.exp(rest) / sum(np.exp(rest))
-        last_time = np.exp(last_time) / sum(np.exp(last_time))
+        last_time = np.exp(time) / sum(np.exp(time))
         cars_num = np.exp(cars_num) / sum(np.exp(cars_num))
         # 计算优先级
         for i in range(len(self.__warehouse_list)):
@@ -55,6 +55,8 @@ class InFactory(object):
     def get_cars_list(self):
         return self.__cars_list
 
+    def get_warehouse(self):
+        return self.__warehouse_list
 
 
 

@@ -18,13 +18,6 @@ class Car(object):
         self.__target_warehouse = None  # 目标仓库
         self.__priority = None  # 优先级
 
-    # 获取车辆任务号
-    def get_task_id(self):
-        return self.__task_id
-
-    def get_mat_code(self):
-        return self.__mat_code
-
     def init_target_warehouse(self, queue_item):
         self.__target_warehouse = queue_item['WAREHOUSE_CODE']
 
@@ -33,6 +26,13 @@ class Car(object):
 
     def init_entry_time(self, queue_item):
         self.__entry_time = queue_item['ENTRY_TIME']
+
+    # 获取车辆任务号
+    def get_task_id(self):
+        return self.__task_id
+
+    def get_mat_code(self):
+        return self.__mat_code
 
     # 获取签到时间
     def get_queue_start_time(self):

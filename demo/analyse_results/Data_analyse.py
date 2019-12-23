@@ -36,6 +36,7 @@ def data_analyse1(data):
         warehouse_code = set(df['WAREHOUSE_CODE'].tolist())
         if len(warehouse_code) == 1:
             print('物料名：' + mat + '只有一个仓库去向')
+            print(warehouse_code)
         else:
             for warehouse in warehouse_code:
                 w = len(df[df['WAREHOUSE_CODE'] == warehouse])
@@ -49,13 +50,13 @@ def data_analyse2(data):
         mat_code = list(mat_code)
         if len(mat_code) == 1:
             # print('仓库名：' + warehouse + '只有一种物料来')
-            print(warehouse,':',mat_code[0])
+            print(warehouse, ':', mat_code[0])
         else:
             print(warehouse,':')
             for mat in mat_code:
                 m = len(df[df['MAT_CODE'] == mat])
                 # print('仓库名：' + warehouse + ' 物料：' + mat + '占比：' + str(m / len(df)))
-                print(mat,',')
+                print(mat, ',')
 
 
 # 统计仓库卸货时间
@@ -130,6 +131,6 @@ def data_analyse5(data):
     df = pd.DataFrame(result, columns=['warehouse_code', 'preparation_time'])
     df.to_excel('preparationTime.xls', index=False)
 
-data_analyse2(data)
+data_analyse1(data)
 
 

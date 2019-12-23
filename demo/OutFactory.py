@@ -1,6 +1,7 @@
 import demo.setting.Data_acquisition as Data_acquisition
 import demo.setting.Tools as Tool
 from demo.InFactory import InFactory
+import numpy as np
 import datetime
 
 
@@ -46,7 +47,18 @@ class OutFactory(object):
     def get_queue(self):
         return self.__queue
 
-    def cal_cars_priority(self):
+    def cal_cars_priority(self, now_time):
+        time_list = list()
+        warehouse_priority = list()
+        # 计算每个车辆已等时间的softmax函数
+        for car in self.__queue_cars:
+            time_list.append((Tool.string_to_datetime(now_time) - Tool.string_to_datetime(car.get_queue_start_time())).total_seconds())
+        time = np.array(time_list)
+        time = np.exp(time) / sum(np.exp(time))
+        for warehouse in self.__inFactory.get_warehouse():
+            warehouse_priority.append(warehouse.get_priority())
+        priority = np.array()
+
 
 
 
