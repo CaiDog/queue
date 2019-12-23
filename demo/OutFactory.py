@@ -55,9 +55,17 @@ class OutFactory(object):
             time_list.append((Tool.string_to_datetime(now_time) - Tool.string_to_datetime(car.get_queue_start_time())).total_seconds())
         time = np.array(time_list)
         time = np.exp(time) / sum(np.exp(time))
+        # 计算每个仓库优先级的softmax函数
         for warehouse in self.__inFactory.get_warehouse():
             warehouse_priority.append(warehouse.get_priority())
-        priority = np.array()
+        priority = np.array(warehouse_priority)
+        priority = np.exp(priority) / sum(np.exp(priority))
+        for i in range(len(self.__queue_cars)):
+            count = int()
+            weight = 1 / len(self.__queue_cars[i].get_target_warehouse())
+            for j in range(len(self.__queue_cars[i].get_target_warehouse())):
+                count += self.__queue_cars[i].get_target_warehouse()[j].get_priority() * weight
+            self.__queue_cars[i].set_priority(time[i] * count)
 
 
 

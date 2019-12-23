@@ -50,7 +50,9 @@ def car_init(cars, flag):
     cars_list = list()
     if flag == 'out':
         for index, row in cars.iterrows():
-            cars_list.append(Car.Car(row))
+            car = Car.Car(row)
+            car.set_target_warehouse(mat_warehouse[row['MAT_CODE']])
+            cars_list.append(car)
     else:
         for index, row in cars.iterrows():
             car = Car.Car(row)

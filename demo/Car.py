@@ -41,6 +41,9 @@ class Car(object):
     def get_target_warehouse(self):
         return self.__target_warehouse
 
+    def set_target_warehouse(self, warehouse_list):
+        self.__target_warehouse = warehouse_list
+
     # 获取叫号时间
     def get_notice_time(self):
         return self.__notice_time
