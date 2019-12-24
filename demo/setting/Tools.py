@@ -10,7 +10,6 @@ def Columns_Get(columns_info):
 
     return new_columns
 
-
 def Listize(tuple):
     new_list = list()
     for tu in tuple:
@@ -75,7 +74,6 @@ def init_plan_day():
     return df
 
 
-
 mat_code = ['10201000030000', '10201000120000', '10201000220000', '10201000270000', '10301000050000',
                   '10301000170000', '10301000180000', '10301000250000', '10302000010000', '10302000020000',
                   '10302000050000', '10302000130000', '10302000150000', '10302000160000', '10302000170000',
@@ -107,7 +105,7 @@ mat_warehouse = {'10201000030000': ['R02W0H01000'], '10201000120000': ['R02W0H01
                  '10302000160000': ['R02W0Y06E00', 'R02W0Y14D00', 'R02W0Y06C00'],
                  '10302000170000': ['R02W0Y06D00'], '11002000010000': ['R01WAY01B00'],
                  '11002000110000': ['R01WAY01B00']}
-warehouse_limit = pd.read_excel('C:\\queue\\demo\\analyse_results\\warehouseLimit.xls')
+warehouse_limit = pd.read_excel('/Users/pro/PycharmProjects/queue/demo/analyse_results/warehouseLimit.xls')
 
 
 
