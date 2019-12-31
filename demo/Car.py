@@ -10,7 +10,10 @@ class Car(object):
     def __init__(self, queue_item):
         self.__task_id = queue_item['TASK_ID']  # 任务号
         self.__mat_code = queue_item['MAT_CODE']    # 物料号
-        self.__sub_kind_name = queue_item['SUB_KIND_NAME']  # 小品种名
+        if self.__mat_code == '11002000010000':
+            self.__sub_kind_name = queue_item['SUB_KIND_NAME']  # 小品种名
+        else:
+            self.__sub_kind_name = None
         self.__start_time = queue_item['QUEUE_START_TIME']  # 签到时间
         self.__notice_time = None   # 叫号时间
         self.__entry_time = None    # 进厂时间
@@ -33,6 +36,9 @@ class Car(object):
 
     def get_mat_code(self):
         return self.__mat_code
+
+    def get_sub_kind_name(self):
+        return self.__sub_kind_name
 
     # 获取签到时间
     def get_queue_start_time(self):
@@ -75,4 +81,7 @@ class Car(object):
     # 计算优先级
     def set_priority(self, priority):
         self.__priority = priority
+
+    def get_priority(self):
+        return self.__priority
 

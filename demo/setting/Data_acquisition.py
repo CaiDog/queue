@@ -17,7 +17,7 @@ def entry_queue_data_acquisition():
     time_pd = pd.DataFrame(time_data, columns=time_columns)
     return time_pd
 
-def outFactory_cars(time):
+def queue_cars(time):
     sql = "SELECT TASK_ID, KIND_CODE, TRUCK_NO, SUB_KIND_NAME, SUB_KIND_CODE, MAT_NAME, MAT_CODE, GATE_CODE, VENDOR_CODE, WAREHOUSE_CODE, WAREHOUSE_NAME, " \
           " NET_WEIGHT, QUEUE_START_TIME, ENTRY_NOTICE_TIME, ENTRY_TIME, FINISH_TIME" \
           " FROM t_disp_entry_queue WHERE QUEUE_START_TIME < '{0}' AND ENTRY_NOTICE_TIME > '{1}' " \
@@ -37,7 +37,7 @@ def inFactory_cars(time):
           " NET_WEIGHT, QUEUE_START_TIME, ENTRY_NOTICE_TIME, ENTRY_TIME, FINISH_TIME" \
           " FROM t_disp_entry_queue WHERE ENTRY_TIME < '{0}' AND FINISH_TIME > '{1}' " \
           "AND WAREHOUSE_CODE IS NOT NULL AND QUEUE_START_TIME IS NOT NULL AND ENTRY_NOTICE_TIME IS NOT NULL AND " \
-          "ENTRY_TIME IS NOT NULL AND FINISH_TIME IS NOT NULL".format(time, time)
+          "ENTRY_TIME IS NOT NULL AND FINISH_TIME IS NOT NULL AND DATEDIFF(FINISH_TIME,ENTRY_TIME) < 2".format(time, time)
 
     connect.cursor_dispatch.execute(sql)
     time_data = connect.cursor_dispatch.fetchall()
@@ -65,6 +65,21 @@ def ready_cars(time):
 def read_plan_day():
     sql = " SELECT update_time,plan_date,kind_code,kind_name,sub_kind_name,warehouse_code,warehouse_name,add_weight," \
           "act_weight,status FROM db_data_seience.plan_day_OctNov where status like '修改%'"
+
+    connect.cursor_dispatch.execute(sql)
+    time_data = connect.cursor_dispatch.fetchall()
+    time_data = Listize(time_data)
+    time_columns = connect.cursor_dispatch.description
+    time_columns = Columns_Get(time_columns)
+    time_pd = pd.DataFrame(time_data, columns=time_columns)
+    return time_pd
+
+def read_car(start_time, end_time):
+    sql = "SELECT TASK_ID, KIND_CODE, TRUCK_NO, SUB_KIND_NAME, SUB_KIND_CODE, MAT_NAME, MAT_CODE, GATE_CODE, VENDOR_CODE, WAREHOUSE_CODE, WAREHOUSE_NAME, " \
+          " NET_WEIGHT, QUEUE_START_TIME, ENTRY_NOTICE_TIME, ENTRY_TIME, FINISH_TIME" \
+          " FROM t_disp_entry_queue WHERE QUEUE_START_TIME >= '{0}' AND QUEUE_START_TIME <= '{1}' " \
+          "AND WAREHOUSE_CODE IS NOT NULL AND QUEUE_START_TIME IS NOT NULL AND ENTRY_NOTICE_TIME IS NOT NULL AND " \
+          "ENTRY_TIME IS NOT NULL AND FINISH_TIME IS NOT NULL".format(start_time, end_time)
 
     connect.cursor_dispatch.execute(sql)
     time_data = connect.cursor_dispatch.fetchall()
